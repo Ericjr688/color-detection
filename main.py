@@ -1,5 +1,6 @@
 import cv2
 from util import get_limits
+from PIL import Image
 
 cap = cv2.VideoCapture(0) # Open the default camera
 blue = [255, 0, 0]  # Define a blue color in BGR format
@@ -10,6 +11,13 @@ while True:
     hsv_image = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)  # Convert the frame to HSV color space
     lower_limit, upper_limit = get_limits(blue)  # Get the HSV limits for the defined color
     mask = cv2.inRange(hsv_image, lower_limit, upper_limit)  # Create a mask for the defined color
+
+    mask_ = Image.fromarray(mask)  # Convert the mask to a PIL Image for further processing if needed
+    bbox = mask_.getbbox()  # Get the bounding box of the non-zero regions in the mask
+
+    if bbox:
+        x1, y1, x2, y2 = bbox
+        frame = cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 5)  # Draw a rectangle around the detected color
     
     cv2.imshow('frame', frame)  # Display the frame
 
