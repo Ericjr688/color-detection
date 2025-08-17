@@ -12,6 +12,8 @@ color_map = {
 print("Available colors: ", ", ".join(color_map.keys()))
 selected_color = input("Enter a color from the list: ").strip().lower()
 
+print("\n Press 'q' to exit the program.")
+
 if selected_color not in color_map:
     print("Invalid color selected. Exiting...")
     exit()
